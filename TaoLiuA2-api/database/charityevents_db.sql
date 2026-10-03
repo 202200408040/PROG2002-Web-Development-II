@@ -51,6 +51,10 @@ CREATE TABLE events (
         REFERENCES categories(category_id)
 );
 
+-- Improve homepage filtering by status and event date
+CREATE INDEX idx_events_status_date
+ON events (status, event_date);
+
 -- Insert a charity organisation
 INSERT INTO organisations (
     name,
@@ -160,4 +164,5 @@ INSERT INTO events (
     'images/hope-concert.svg',
     'suspended'
 );
+
 
