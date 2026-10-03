@@ -4,9 +4,44 @@ const db = require("./event_db");
 
 const app = express();
 const PORT = 3000;
+const MAX_LOCATION_LENGTH = 100;
 
+app.disable("x-powered-by");
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../TaoLiuA2-clientside")));
+
+function getQueryString(value) {
+    if (value === undefined) {
+        return "";
+    }
+
+    if (Array.isArray(value) || typeof value !== "string") {
+        return null;
+    }
+
+    return value.trim();
+}
+
+function isValidDateString(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return false;
+    }
+
+    const [year, month, day] = value.split("-").map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+
+    return date.getUTCFullYear() === year
+        && date.getUTCMonth() === month - 1
+        && date.getUTCDate() === day;
+}
+
+function escapeLikePattern(value) {
+    return value.replace(/[!%_]/g, "!$&");
+}
+
+function sendBadRequest(res, message) {
+    return res.status(400).json({ message });
+}
 
 // Homepage events API
 app.get("/api/events/home", (req, res) => {
@@ -32,7 +67,7 @@ app.get("/api/events/home", (req, res) => {
 
     db.query(sql, (error, results) => {
         if (error) {
-            console.error(error.message);
+            console.error("Homepage events query failed:", error.message);
             return res.status(500).json({
                 message: "Unable to retrieve events"
             });
@@ -55,7 +90,7 @@ app.get("/api/categories", (req, res) => {
 
     db.query(sql, (error, results) => {
         if (error) {
-            console.error(error.message);
+            console.error("Category query failed:", error.message);
             return res.status(500).json({
                 message: "Unable to retrieve categories"
             });
@@ -67,7 +102,26 @@ app.get("/api/categories", (req, res) => {
 
 // Event search API
 app.get("/api/events", (req, res) => {
-    const { date, location, category } = req.query;
+    const date = getQueryString(req.query.date);
+    const location = getQueryString(req.query.location);
+    const category = getQueryString(req.query.category);
+
+    if (date === null || location === null || category === null) {
+        return sendBadRequest(res, "Query parameters must contain a single value");
+    }
+
+    if (date && !isValidDateString(date)) {
+        return sendBadRequest(res, "Date must use the YYYY-MM-DD format");
+    }
+
+    if (location && location.length > MAX_LOCATION_LENGTH) {
+        return sendBadRequest(res, `Location must not exceed ${MAX_LOCATION_LENGTH} characters`);
+    }
+
+    if (category && !/^[1-9]\d*$/.test(category)) {
+        return sendBadRequest(res, "Category must be a positive integer");
+    }
+
     const conditions = ["e.status = 'active'"];
     const values = [];
 
@@ -77,13 +131,13 @@ app.get("/api/events", (req, res) => {
     }
 
     if (location) {
-        conditions.push("e.location LIKE ?");
-        values.push(`%${location}%`);
+        conditions.push("e.location LIKE ? ESCAPE '!'");
+        values.push(`%${escapeLikePattern(location)}%`);
     }
 
     if (category) {
         conditions.push("e.category_id = ?");
-        values.push(category);
+        values.push(Number(category));
     }
 
     const sql = `
@@ -105,9 +159,9 @@ app.get("/api/events", (req, res) => {
         ORDER BY e.event_date ASC
     `;
 
-    db.query(sql, values, (error, results) => {
+    db.execute(sql, values, (error, results) => {
         if (error) {
-            console.error(error.message);
+            console.error("Event search query failed:", error.message);
             return res.status(500).json({
                 message: "Unable to search events"
             });
@@ -119,12 +173,14 @@ app.get("/api/events", (req, res) => {
 
 // Event details API
 app.get("/api/events/:id", (req, res) => {
+    if (!/^[1-9]\d*$/.test(req.params.id)) {
+        return sendBadRequest(res, "Invalid event ID");
+    }
+
     const eventId = Number(req.params.id);
 
-    if (!Number.isInteger(eventId) || eventId <= 0) {
-        return res.status(400).json({
-            message: "Invalid event ID"
-        });
+    if (!Number.isSafeInteger(eventId)) {
+        return sendBadRequest(res, "Invalid event ID");
     }
 
     const sql = `
@@ -150,9 +206,9 @@ app.get("/api/events/:id", (req, res) => {
           AND e.status = 'active'
     `;
 
-    db.query(sql, [eventId], (error, results) => {
+    db.execute(sql, [eventId], (error, results) => {
         if (error) {
-            console.error(error.message);
+            console.error("Event details query failed:", error.message);
             return res.status(500).json({
                 message: "Unable to retrieve event details"
             });
@@ -168,7 +224,31 @@ app.get("/api/events/:id", (req, res) => {
     });
 });
 
+// Unknown API endpoint
+app.use("/api", (req, res) => {
+    res.status(404).json({
+        message: "API endpoint not found"
+    });
+});
+
+// Unknown webpage or static file
+app.use((req, res) => {
+    res.status(404).send("Page not found");
+});
+
+// Unexpected server error
+app.use((error, req, res, next) => {
+    console.error("Unexpected server error:", error);
+
+    if (res.headersSent) {
+        return next(error);
+    }
+
+    return res.status(500).json({
+        message: "Internal server error"
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
-
