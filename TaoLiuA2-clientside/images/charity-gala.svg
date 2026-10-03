@@ -1,16 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#173f52"/>
-      <stop offset="100%" stop-color="#d39b35"/>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7D4E9E"/>
+      <stop offset="100%" stop-color="#D58A68"/>
     </linearGradient>
   </defs>
-  <rect width="800" height="500" fill="url(#bg)"/>
-  <circle cx="665" cy="90" r="115" fill="#ffffff" opacity="0.11"/>
-  <circle cx="105" cy="425" r="145" fill="#ffffff" opacity="0.09"/>
-  <rect x="362" y="56" width="76" height="76" rx="22" fill="#ffffff" opacity="0.92"/>
-  <path d="M400 77v34M383 94h34" stroke="#173f52" stroke-width="12" stroke-linecap="round"/>
-  <text x="400" y="290" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">Charity Gala</text>
-  <text x="400" y="345" text-anchor="middle" fill="#ffffff" opacity="0.82" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="4">DINE · GIVE · CELEBRATE</text>
-  <text x="400" y="420" text-anchor="middle" fill="#ffffff" opacity="0.72" font-family="Segoe UI, Arial, sans-serif" font-size="22">UnityAid Charity Events</text>
+  <rect width="800" height="500" fill="#34214F"/>
+  <path d="M0 500 L0 176 L800 0 L800 500 Z" fill="url(#accent)"/>
+  <circle cx="690" cy="80" r="128" fill="#ffffff" opacity="0.09"/>
+  <circle cx="90" cy="420" r="150" fill="#ffffff" opacity="0.07"/>
+  <g transform="translate(420 260)">
+    <path d="M0 -78 C8 -24 22 -8 76 0 C22 8 8 24 0 78 C-8 24 -22 8 -76 0 C-22 -8 -8 -24 0 -78 Z" fill="#ffffff"/><circle cx="74" cy="-72" r="10" fill="#ffffff" opacity="0.9"/>
+  </g>
 </svg>

@@ -1,16 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#49366e"/>
-      <stop offset="100%" stop-color="#aa79c7"/>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4B87A8"/>
+      <stop offset="100%" stop-color="#A8D1D9"/>
     </linearGradient>
   </defs>
-  <rect width="800" height="500" fill="url(#bg)"/>
-  <circle cx="665" cy="90" r="115" fill="#ffffff" opacity="0.11"/>
-  <circle cx="105" cy="425" r="145" fill="#ffffff" opacity="0.09"/>
-  <rect x="362" y="56" width="76" height="76" rx="22" fill="#ffffff" opacity="0.92"/>
-  <path d="M400 77v34M383 94h34" stroke="#49366e" stroke-width="12" stroke-linecap="round"/>
-  <text x="400" y="290" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">Silent Auction</text>
-  <text x="400" y="345" text-anchor="middle" fill="#ffffff" opacity="0.82" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="4">BID · SUPPORT · CHANGE</text>
-  <text x="400" y="420" text-anchor="middle" fill="#ffffff" opacity="0.72" font-family="Segoe UI, Arial, sans-serif" font-size="22">UnityAid Charity Events</text>
+  <rect width="800" height="500" fill="#1E526F"/>
+  <path d="M0 500 L0 176 L800 0 L800 500 Z" fill="url(#accent)"/>
+  <circle cx="690" cy="80" r="128" fill="#ffffff" opacity="0.09"/>
+  <circle cx="90" cy="420" r="150" fill="#ffffff" opacity="0.07"/>
+  <g transform="translate(420 260)">
+    <path d="M0 -72 L70 0 L0 72 L-70 0 Z" fill="#ffffff"/><path d="M0 -72 L0 72 M-70 0 L70 0" stroke="#4B87A8" stroke-width="7" opacity="0.55"/>
+  </g>
 </svg>

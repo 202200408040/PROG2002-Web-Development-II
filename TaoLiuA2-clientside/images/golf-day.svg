@@ -1,16 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1d5d52"/>
-      <stop offset="100%" stop-color="#70a77f"/>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3C8D73"/>
+      <stop offset="100%" stop-color="#B8D6A5"/>
     </linearGradient>
   </defs>
-  <rect width="800" height="500" fill="url(#bg)"/>
-  <circle cx="665" cy="90" r="115" fill="#ffffff" opacity="0.11"/>
-  <circle cx="105" cy="425" r="145" fill="#ffffff" opacity="0.09"/>
-  <rect x="362" y="56" width="76" height="76" rx="22" fill="#ffffff" opacity="0.92"/>
-  <path d="M400 77v34M383 94h34" stroke="#1d5d52" stroke-width="12" stroke-linecap="round"/>
-  <text x="400" y="290" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">Charity Golf Day</text>
-  <text x="400" y="345" text-anchor="middle" fill="#ffffff" opacity="0.82" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="4">PLAY · FUND · IMPACT</text>
-  <text x="400" y="420" text-anchor="middle" fill="#ffffff" opacity="0.72" font-family="Segoe UI, Arial, sans-serif" font-size="22">UnityAid Charity Events</text>
+  <rect width="800" height="500" fill="#16574F"/>
+  <path d="M0 500 L0 176 L800 0 L800 500 Z" fill="url(#accent)"/>
+  <circle cx="690" cy="80" r="128" fill="#ffffff" opacity="0.09"/>
+  <circle cx="90" cy="420" r="150" fill="#ffffff" opacity="0.07"/>
+  <g transform="translate(420 260)">
+    <g fill="none" stroke="#ffffff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 78 V-76"/><path d="M-18 -76 L66 -47 L-18 -18 Z" fill="#ffffff"/><path d="M35 78 H-70"/></g><circle cx="44" cy="62" r="13" fill="#ffffff"/>
+  </g>
 </svg>
