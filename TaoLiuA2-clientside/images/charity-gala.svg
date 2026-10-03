@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#173f52"/>
+      <stop offset="100%" stop-color="#d39b35"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <circle cx="665" cy="90" r="115" fill="#ffffff" opacity="0.11"/>
+  <circle cx="105" cy="425" r="145" fill="#ffffff" opacity="0.09"/>
+  <rect x="62" y="80" width="76" height="76" rx="22" fill="#ffffff" opacity="0.92"/>
+  <path d="M100 101v34M83 118h34" stroke="#173f52" stroke-width="12" stroke-linecap="round"/>
+  <text x="62" y="280" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">Charity Gala</text>
+  <text x="65" y="335" fill="#ffffff" opacity="0.82" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="4">DINE · GIVE · CELEBRATE</text>
+  <text x="65" y="410" fill="#ffffff" opacity="0.72" font-family="Segoe UI, Arial, sans-serif" font-size="22">UnityAid Charity Events</text>
+</svg>

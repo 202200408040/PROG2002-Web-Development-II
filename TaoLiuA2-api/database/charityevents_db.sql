@@ -94,7 +94,7 @@ INSERT INTO events (
     'Join our annual City Fun Run. Participants can choose a 5 km or 10 km route. All money raised supports local families facing financial hardship.',
     '2026-10-18', '08:00:00', 'Lismore Riverside Park',
     0.00, 10000.00, 4200.00,
-    'https://placehold.co/800x500?text=City+Fun+Run',
+    'images/city-fun-run.svg',
     'active'
 ),
 (
@@ -103,7 +103,7 @@ INSERT INTO events (
     'Enjoy a three-course dinner while supporting community programs. The evening includes live music, guest speakers and a charity auction.',
     '2026-11-07', '18:30:00', 'Lismore Community Hall',
     120.00, 25000.00, 12800.00,
-    'https://placehold.co/800x500?text=Charity+Gala',
+    'images/charity-gala.svg',
     'active'
 ),
 (
@@ -112,7 +112,7 @@ INSERT INTO events (
     'Local artists have donated paintings, prints and sculptures. All proceeds will fund food, housing and education programs.',
     '2026-11-21', '17:00:00', 'Northern Rivers Gallery',
     50.00, 15000.00, 6750.00,
-    'https://placehold.co/800x500?text=Silent+Auction',
+    'images/silent-auction.svg',
     'active'
 ),
 (
@@ -121,7 +121,7 @@ INSERT INTO events (
     'Enjoy performances from local musicians while helping raise funds for children and families in need.',
     '2026-12-05', '19:00:00', 'Lismore City Hall',
     75.00, 20000.00, 9200.00,
-    'https://placehold.co/800x500?text=Hope+Concert',
+    'images/hope-concert.svg',
     'active'
 ),
 (
@@ -130,7 +130,7 @@ INSERT INTO events (
     'This free workshop teaches composting, seasonal planting and water-saving gardening techniques.',
     '2026-10-25', '10:00:00', 'East Lismore Community Centre',
     0.00, 3000.00, 850.00,
-    'https://placehold.co/800x500?text=Garden+Workshop',
+    'images/garden-workshop.svg',
     'active'
 ),
 (
@@ -139,7 +139,7 @@ INSERT INTO events (
     'Participants walked through the city and collected donations for local food banks. This event has already finished.',
     '2026-08-15', '09:00:00', 'Lismore Town Centre',
     10.00, 8000.00, 8000.00,
-    'https://placehold.co/800x500?text=Food+Drive',
+    'images/city-fun-run.svg',
     'active'
 ),
 (
@@ -148,7 +148,7 @@ INSERT INTO events (
     'Teams of four compete in a friendly charity tournament. The registration fee includes lunch and prizes.',
     '2027-01-16', '07:30:00', 'Lismore Golf Club',
     150.00, 30000.00, 11500.00,
-    'https://placehold.co/800x500?text=Charity+Golf+Day',
+    'images/golf-day.svg',
     'active'
 ),
 (
@@ -157,6 +157,7 @@ INSERT INTO events (
     'This event is suspended because it does not meet the charity policy requirements.',
     '2026-12-19', '18:00:00', 'Ballina Entertainment Centre',
     60.00, 12000.00, 0.00,
-    'https://placehold.co/800x500?text=Suspended+Event',
+    'images/hope-concert.svg',
     'suspended'
 );
+
