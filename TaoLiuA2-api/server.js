@@ -115,6 +115,57 @@ app.get("/api/events", (req, res) => {
     });
 });
 
+// Event details API
+app.get("/api/events/:id", (req, res) => {
+    const eventId = Number(req.params.id);
+
+    if (!Number.isInteger(eventId) || eventId <= 0) {
+        return res.status(400).json({
+            message: "Invalid event ID"
+        });
+    }
+
+    const sql = `
+        SELECT
+            e.event_id,
+            e.name,
+            e.short_description,
+            e.full_description,
+            e.event_date,
+            e.event_time,
+            e.location,
+            e.ticket_price,
+            e.fundraising_goal,
+            e.current_amount,
+            e.image_url,
+            e.status,
+            c.name AS category,
+            o.name AS organisation
+        FROM events e
+        JOIN categories c ON c.category_id = e.category_id
+        JOIN organisations o ON o.organisation_id = e.organisation_id
+        WHERE e.event_id = ?
+          AND e.status = 'active'
+    `;
+
+    db.query(sql, [eventId], (error, results) => {
+        if (error) {
+            console.error(error.message);
+            return res.status(500).json({
+                message: "Unable to retrieve event details"
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({
+                message: "Event not found"
+            });
+        }
+
+        res.json(results[0]);
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
