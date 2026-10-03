@@ -1142,3 +1142,74 @@ button:disabled {
     font-size: 0.9rem;
     font-weight: 750;
 }
+
+/* Compact homepage impact card */
+.hero-card {
+    width: min(100%, 360px);
+    min-height: 300px;
+    padding: 22px;
+    justify-self: end;
+    border-radius: 26px;
+    background: linear-gradient(145deg, rgba(18, 82, 67, 0.86), rgba(35, 124, 101, 0.76));
+    transform: rotate(1.5deg);
+}
+
+.hero-card::after {
+    inset: 10px;
+    border-radius: 19px;
+}
+
+.hero-card-top {
+    font-size: 0.82rem;
+}
+
+.hero-badge {
+    padding: 4px 8px;
+    font-size: 0.68rem;
+}
+
+.hero-illustration {
+    height: 145px;
+}
+
+.circle-one {
+    width: 84px;
+    height: 84px;
+    left: 13%;
+    bottom: 8px;
+}
+
+.circle-two {
+    width: 64px;
+    height: 64px;
+    right: 12%;
+    bottom: 36px;
+}
+
+.circle-three {
+    width: 42px;
+    height: 42px;
+    right: 35%;
+    top: 5px;
+}
+
+.hero-card .heart {
+    width: 66px;
+    height: 66px;
+    border-radius: 20px 20px 20px 7px;
+    font-size: 3rem;
+}
+
+.hero-card > p {
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 680px) {
+    .hero-card {
+        width: 100%;
+        min-height: 260px;
+        justify-self: stretch;
+        transform: none;
+    }
+}
