@@ -58,9 +58,9 @@ INSERT INTO organisations (
     email,
     phone
 ) VALUES (
-    'HopeBridge Charity',
+    'UnityAid',
     'Connecting communities and raising funds for people in need.',
-    'hello@hopebridge.org',
+    'hello@unityaid.org',
     '02 1234 5678'
 );
 
