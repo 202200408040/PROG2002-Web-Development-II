@@ -40,6 +40,29 @@ app.get("/api/events/home", (req, res) => {
     });
 });
 
+// Event categories API
+app.get("/api/categories", (req, res) => {
+    const sql = `
+        SELECT
+            category_id,
+            name,
+            description
+        FROM categories
+        ORDER BY category_id ASC
+    `;
+
+    db.query(sql, (error, results) => {
+        if (error) {
+            console.error(error.message);
+            return res.status(500).json({
+                message: "Unable to retrieve categories"
+            });
+        }
+
+        res.json(results);
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
