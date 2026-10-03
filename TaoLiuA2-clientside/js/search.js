@@ -2,11 +2,13 @@ const categoriesUrl = "/api/categories";
 const eventsUrl = "/api/events";
 
 const searchForm = document.querySelector("#search-form");
+const searchSubmit = searchForm.querySelector("button[type='submit']");
 const dateInput = document.querySelector("#search-date");
 const locationInput = document.querySelector("#search-location");
 const categorySelect = document.querySelector("#search-category");
 const clearButton = document.querySelector("#clear-filters");
 const searchStatus = document.querySelector("#search-status");
+const filterSummary = document.querySelector("#filter-summary");
 const searchResults = document.querySelector("#search-results");
 const currentYear = document.querySelector("#current-year");
 
@@ -15,94 +17,36 @@ function setStatus(message, isError = false) {
     searchStatus.classList.toggle("error", isError);
 }
 
-function formatDate(dateString) {
-    const [year, month, day] = dateString.split("-").map(Number);
-    const date = new Date(year, month - 1, day);
-
-    return new Intl.DateTimeFormat("en-AU", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    }).format(date);
+function setBusy(isBusy) {
+    searchSubmit.disabled = isBusy;
+    clearButton.disabled = isBusy;
+    searchStatus.setAttribute("aria-busy", String(isBusy));
+    searchResults.setAttribute("aria-busy", String(isBusy));
 }
 
-function formatPrice(value) {
-    const price = Number(value);
+function setFilterSummary(date, location, categoryName = "") {
+    const filters = [];
 
-    if (price === 0) {
-        return "Free";
+    if (date) {
+        filters.push(`Date: ${UnityAid.formatDate(date)}`);
     }
 
-    return new Intl.NumberFormat("en-AU", {
-        style: "currency",
-        currency: "AUD"
-    }).format(price);
-}
+    if (location) {
+        filters.push(`Location: ${location}`);
+    }
 
-function createMeta(label, value) {
-    const row = document.createElement("span");
-    const labelElement = document.createElement("strong");
-    const valueElement = document.createElement("span");
+    if (categoryName) {
+        filters.push(`Category: ${categoryName}`);
+    }
 
-    labelElement.textContent = `${label}:`;
-    valueElement.textContent = value;
-    row.append(labelElement, valueElement);
-
-    return row;
-}
-
-function createEventCard(event) {
-    const card = document.createElement("article");
-    const imageWrap = document.createElement("div");
-    const image = document.createElement("img");
-    const category = document.createElement("span");
-    const body = document.createElement("div");
-    const title = document.createElement("h3");
-    const description = document.createElement("p");
-    const meta = document.createElement("div");
-    const footer = document.createElement("div");
-    const price = document.createElement("span");
-    const link = document.createElement("a");
-
-    card.className = "event-card";
-    imageWrap.className = "event-card__image-wrap";
-    image.className = "event-card__image";
-    category.className = "event-card__category";
-    body.className = "event-card__body";
-    description.className = "event-card__description";
-    meta.className = "event-meta";
-    footer.className = "event-card__footer";
-    price.className = "event-price";
-    link.className = "event-link";
-
-    image.src = event.image_url || "";
-    image.alt = `${event.name} event image`;
-    image.loading = "lazy";
-    image.addEventListener("error", () => image.remove());
-
-    category.textContent = event.category;
-    title.textContent = event.name;
-    description.textContent = event.short_description;
-    price.textContent = formatPrice(event.ticket_price);
-
-    meta.append(
-        createMeta("Date", formatDate(event.event_date)),
-        createMeta("Location", event.location)
-    );
-
-    link.href = `event.html?id=${encodeURIComponent(event.event_id)}`;
-    link.textContent = "View Details";
-
-    imageWrap.append(image, category);
-    footer.append(price, link);
-    body.append(title, description, meta, footer);
-    card.append(imageWrap, body);
-
-    return card;
+    filterSummary.textContent = filters.length
+        ? `Filters applied: ${filters.join(" | ")}`
+        : "";
 }
 
 async function loadCategories() {
+    categorySelect.disabled = true;
+
     try {
         const response = await fetch(categoriesUrl);
 
@@ -119,13 +63,11 @@ async function loadCategories() {
             categorySelect.append(option);
         });
     } catch (error) {
-        console.error(error);
+        console.error("Unable to load event categories:", error);
         setStatus("Unable to load event categories.", true);
+    } finally {
+        categorySelect.disabled = false;
     }
-}
-
-function clearResults() {
-    searchResults.replaceChildren();
 }
 
 async function searchEvents(event) {
@@ -134,10 +76,13 @@ async function searchEvents(event) {
     const date = dateInput.value.trim();
     const location = locationInput.value.trim();
     const category = categorySelect.value;
+    const categoryName = categorySelect.options[categorySelect.selectedIndex].textContent;
 
-    clearResults();
+    searchResults.replaceChildren();
+    setFilterSummary(date, location, category ? categoryName : "");
 
     if (!date && !location && !category) {
+        setFilterSummary("", "", "");
         setStatus("Please select at least one filter.", true);
         return;
     }
@@ -156,6 +101,7 @@ async function searchEvents(event) {
         params.set("category", category);
     }
 
+    setBusy(true);
     setStatus("Searching for events...");
 
     try {
@@ -174,20 +120,23 @@ async function searchEvents(event) {
 
         const fragment = document.createDocumentFragment();
         events.forEach((eventData) => {
-            fragment.append(createEventCard(eventData));
+            fragment.append(UnityAid.createEventCard(eventData));
         });
 
         searchResults.append(fragment);
         setStatus(`Found ${events.length} matching event${events.length === 1 ? "" : "s"}.`);
     } catch (error) {
-        console.error(error);
+        console.error("Unable to search events:", error);
         setStatus("Unable to search events. Please try again later.", true);
+    } finally {
+        setBusy(false);
     }
 }
 
 clearButton.addEventListener("click", () => {
     searchForm.reset();
-    clearResults();
+    searchResults.replaceChildren();
+    setFilterSummary("", "", "");
     setStatus("");
     dateInput.focus();
 });
