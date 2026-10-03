@@ -1,5 +1,5 @@
 const homeApiUrl = "/api/events/home";
-const allActiveEventsUrl = "/api/events";
+
 
 const eventsGrid = document.querySelector("#events-grid");
 const statusMessage = document.querySelector("#event-status");
@@ -48,7 +48,7 @@ async function loadHomepageEvents() {
 
 async function loadImpactStatistics() {
     try {
-        const response = await fetch(allActiveEventsUrl);
+        const response = await fetch(homeApiUrl);
 
         if (!response.ok) {
             throw new Error(`Request failed with status ${response.status}`);
@@ -72,3 +72,5 @@ async function loadImpactStatistics() {
 currentYear.textContent = new Date().getFullYear();
 loadHomepageEvents();
 loadImpactStatistics();
+
+
